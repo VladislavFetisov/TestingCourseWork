@@ -12,16 +12,17 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 class MessageTest {
+    private static WebDriver driver;
     private LoginPage loginPage;
     private MainPage mainPage;
     private MessagesPage messagesPage;
-    private static WebDriver driver;
 
     @BeforeAll
     static void setup() {
 //        System.setProperty("webdriver.gecko.driver", "/home/vladislav/wrk/geckoDriver/geckodriver");
 //        driver = new FirefoxDriver(FirefoxDriver.);
-        Configuration.browser = "firefox";
+        Props.readJSON();
+        Configuration.browser = Props.getBrowser();
     }
 
     private void loginPageOkSetup() {

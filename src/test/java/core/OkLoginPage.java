@@ -13,9 +13,9 @@ public class OkLoginPage implements LoginPage {
 
     @Override
     public void insertUser() {
-        User testUser = User.TEST_USER;
-        $(By.id("field_email")).val(testUser.login());
-        $(By.id("field_password")).val(testUser.password()).pressEnter();
+        User testUser = Props.getRandomUser();
+        $(By.id("field_email")).val(testUser.getLogin());
+        $(By.id("field_password")).val(testUser.getPass()).pressEnter();
     }
 
 }
