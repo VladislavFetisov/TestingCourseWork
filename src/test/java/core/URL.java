@@ -12,7 +12,7 @@ public enum URL {
         try {
             this.link = new java.net.URL(link);
         } catch (MalformedURLException e) {
-            System.out.println("Link is wrong");
+            System.err.println("Link is wrong");
         }
     }
 
