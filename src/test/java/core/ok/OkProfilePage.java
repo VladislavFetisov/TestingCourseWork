@@ -7,9 +7,17 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class OkProfilePage extends BasePage {
     private static final By MAIN_PROFILE_WRAPPER = By.xpath("//*[@id='hook_Block_UserProfileCoverWrapper']");
+    private static final By SETTINGS_BUTTON = By.xpath("//li[@class='u-menu_li  __custom']//*[@href='/settings']");
 
     @Override
     void check() {
-        $(MAIN_PROFILE_WRAPPER).shouldBe(Condition.visible.because("Профиль должен появиться"), TIMEOUT);
+        Utils.checkAndReturn(MAIN_PROFILE_WRAPPER, "Профиль должен появиться");
+    }
+
+    public OkSettingsPage goToSettings() {
+        $(SETTINGS_BUTTON)
+                .shouldBe(Condition.visible.because("Кнопка настроек должна быть"), TIMEOUT)
+                .click();
+        return new OkSettingsPage();
     }
 }

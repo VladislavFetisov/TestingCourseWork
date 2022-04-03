@@ -10,6 +10,7 @@ public class OkMainPage extends BasePage {
     private static final By MSG_BUTTON = By.xpath("//*[@id='msg_toolbar_button']");
     private static final By PROFILE_BUTTON
             = By.xpath("//*[contains(@class,'user-main')]//*[contains(@hrefattrs,'userPage')]");
+    private static final By GROUPS_BUTTON = By.xpath("//*[contains(@class,'user-main')]//*[contains(@href,'/groups')]");
 
     public OkMessagesPage goToMessages() {
         $(MSG_BUTTON)
@@ -26,8 +27,13 @@ public class OkMainPage extends BasePage {
 
     }
 
+    public OkGroupsPage goToGroups() {
+        Utils.checkAndReturn(GROUPS_BUTTON, "Не отображается кнопка групп").click();
+        return new OkGroupsPage();
+    }
+
     @Override
     void check() {
-        $(MAIN_LOGO).shouldBe(Condition.visible.because("Главное лого должно отображаться"), TIMEOUT);
+        Utils.checkAndReturn(MAIN_LOGO, "Главное лого должно отображаться");
     }
 }

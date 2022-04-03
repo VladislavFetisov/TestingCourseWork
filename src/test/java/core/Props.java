@@ -33,7 +33,7 @@ public class Props {
         try {
             return new BufferedReader(new InputStreamReader(
                     Objects.requireNonNull(classloader.getResourceAsStream(FILE_NAME))));
-        } catch (NullPointerException e) { //if file does not exist
+        } catch (NullPointerException e) {
             throw new IOException(String.format("File %s does not exist", FILE_NAME));
         }
     }

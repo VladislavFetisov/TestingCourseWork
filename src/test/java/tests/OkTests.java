@@ -1,17 +1,23 @@
 package tests;
 
+import com.codeborne.selenide.Selenide;
+import com.google.common.truth.Truth;
 import core.Props;
 import core.User;
-import core.ok.OkDialog;
-import core.ok.OkLoginPage;
+import core.ok.*;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class OkTests extends BaseTest {
-    private static final String DIALOG_NAME = "ВИКТОР ТОЛСТЫХ";
-    private static final String MESSAGE = "Привет";
     private static final User TEST_USER = Props.getRandomUser();
     private OkLoginPage loginPage;
 
@@ -21,32 +27,56 @@ class OkTests extends BaseTest {
     }
 
     /**
-     * Логинимся в профиль -> открываем вкладку сообщения ->выбираем диалог с именем {@code DIALOG_NAME}
-     * -> отправляем сообщение {@code MESSAGE} -> проверяем, что сообщение отправилось -> удаляем сообщение.
+     * Логинимся в профиль -> открываем вкладку сообщения ->выбираем диалог
+     * -> отправляем сообщение -> проверяем, что сообщение отправилось -> удаляем сообщение.
+     *
+     * @param dialogName название диалога
+     * @param message    сообщения, которое отправляем
      */
-    @Test
-    void messageTest() {
+    @ParameterizedTest
+    @CsvSource(value = {
+            "ВИКТОР ТОЛСТЫХ, ПРИВЕТ"
+    })
+    void messageTest(String dialogName, String message) {
         OkDialog dialog = loginPage
                 .login(TEST_USER)
                 .goToMessages()
-                .chooseDialog(DIALOG_NAME);
-        dialog.sendText(MESSAGE);
-        try {
-            String foundMessage = dialog.lastMessageText();
-            assertEquals(MESSAGE, foundMessage, "Message is not found");
-        } finally {
-            dialog.deleteLastMessage();
-        }
+                .chooseDialog(dialogName);
+        dialog.sendText(message);
+        String foundMessage = dialog.lastMessageText();
+        dialog.deleteLastMessage();
+        assertEquals(message, foundMessage, "Message is not found");
     }
 
     /**
      * Логинимся в профиль->открываем профиль->запоминаем имя->открываем настройки->меняем имя->открываем профиль
      * ->проверяем, что имя изменилось
+     *
+     * @param name имя, на которое будем менять
      */
-    @Test
-    void changeProfileName() {
+    @ParameterizedTest
+    @ValueSource(strings = {"Кирилл"})
+    void changeProfileName(String name) {
+        OkSettingsPopUP settingsPopUP = loginPage
+                .login(TEST_USER)
+                .goToProfile()
+                .goToSettings()
+                .goToSettingsPopUp();
 
+        String oldName = settingsPopUP.getName();
+        settingsPopUP.changeName(name);
 
+        settingsPopUP.goToSettingsPage(); //back to old page
+        Selenide.refresh();
+
+        OkSettingsPopUP newPopUp = new OkSettingsPage().goToSettingsPopUp();
+        String newName = newPopUp.getName();
+
+        //settingOldName
+        newPopUp.changeName(oldName);
+        newPopUp.goToSettingsPage();
+
+        Assertions.assertEquals(name, newName, "Ожидалось, что имя станет" + name);
     }
 
     /**
@@ -55,6 +85,17 @@ class OkTests extends BaseTest {
      */
     @Test
     void joinRandomGroup() {
+        OkGroupsPage groupPage = loginPage
+                .login(TEST_USER)
+                .goToGroups();
+        List<OkGroupsPage.Group> oldGroups = groupPage.getAllJoinedGroups();
+        OkGroupsPage.Group newGroup = groupPage.joinFirstRecommendedGroup();
+
+        Selenide.refresh();
+        List<OkGroupsPage.Group> upToDateGroups = new OkGroupsPage().getAllJoinedGroups();
+
+        Truth.assertThat(oldGroups).doesNotContain(newGroup); //matcher
+        Truth.assertThat(upToDateGroups).contains(newGroup);
 
     }
 

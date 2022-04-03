@@ -1,6 +1,5 @@
 package core.ok;
 
-import com.codeborne.selenide.Condition;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Selenide.$;
@@ -19,7 +18,6 @@ public class OkMessagesPage extends BasePage {
 
     @Override
     void check() {
-        $(MESSAGE_LAYER)
-                .shouldBe(Condition.visible.because("Сообщения должны появиться"), TIMEOUT);
+        Utils.checkAndReturn(MESSAGE_LAYER, "Сообщения должны появиться");
     }
 }
