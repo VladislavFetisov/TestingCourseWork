@@ -1,18 +1,13 @@
 package core.ok;
 
-public class OkMessagesPage {
-    protected static OkMessagesPage page;
+import com.codeborne.selenide.Condition;
+import org.openqa.selenium.By;
 
-    protected OkMessagesPage() {
-    }
+import static com.codeborne.selenide.Selenide.$;
 
-    public static OkMessagesPage getInstance() {
-        if (page == null) {
-            page = new OkMessagesPage();
-        }
-        return page;
-    }
+public class OkMessagesPage extends BasePage {
 
+    private static final By MESSAGE_LAYER = By.xpath("//*[@id='msg_layer']");
 
     /**
      * @param fullName of user
@@ -22,4 +17,9 @@ public class OkMessagesPage {
         return OkDialog.getByName(fullName);
     }
 
+    @Override
+    void check() {
+        $(MESSAGE_LAYER)
+                .shouldBe(Condition.visible.because("Сообщения должны появиться"), TIMEOUT);
+    }
 }
