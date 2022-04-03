@@ -3,34 +3,38 @@ package core;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import core.ok.Utils;
 
-import java.io.FileReader;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.io.InputStreamReader;
+import java.util.*;
 
 import static com.google.gson.JsonParser.parseReader;
 
 public class Props {
-    private static final String FILE_NAME = "props.txt";
+    private static final String FILE_NAME = "props.json";
     private static List<User> userList;
     private static String BROWSER;
 
     // Reading from JSON file
-    public static void readJSON() {
-        try (FileReader reader = new FileReader(FILE_NAME)) {
+    public static void readJSON() throws IOException {
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        try (BufferedReader reader = openFile(classloader)) {
             JsonElement jsonElement = parseReader(reader);
             JsonObject fileJsonObject = jsonElement.getAsJsonObject();
 
             userList = readUsers(fileJsonObject.getAsJsonArray("users"));
             BROWSER = readBrowser(fileJsonObject);
-        } catch (IOException e) {
-            System.out.println("Couldn't find props file \"" + FILE_NAME + "\"");
-            userList = Collections.EMPTY_LIST;
-            BROWSER = "";
-            e.printStackTrace();
+        }
+    }
+
+    private static BufferedReader openFile(ClassLoader classloader) throws IOException {
+        try {
+            return new BufferedReader(new InputStreamReader(
+                    Objects.requireNonNull(classloader.getResourceAsStream(FILE_NAME))));
+        } catch (NullPointerException e) { //if file does not exist
+            throw new IOException(String.format("File %s does not exist", FILE_NAME));
         }
     }
 
@@ -52,7 +56,7 @@ public class Props {
     private static List<User> readUsers(JsonArray users) {
         if (users.isEmpty()) {
             System.out.println("No users in file \"" + FILE_NAME + "\"");
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
 
         ArrayList<User> objects = new ArrayList<>(users.size());
@@ -64,6 +68,6 @@ public class Props {
 
     private static String readBrowser(JsonObject fileJsonObject) {
         String browser = fileJsonObject.getAsJsonPrimitive("browser").toString();
-        return browser.substring(1, browser.length() - 1);
+        return Utils.removeBrackets(browser);
     }
 }

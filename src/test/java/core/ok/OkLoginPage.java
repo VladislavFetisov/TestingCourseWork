@@ -16,20 +16,19 @@ public class OkLoginPage extends BasePage {
         Selenide.open(URL.OK.getLink());
     }
 
-    public void insertUser() {
-        User testUser = User.TEST_USER;
-        $(FIELD_EMAIL).val(testUser.login());
-        $(FIELD_PASSWORD).val(testUser.password()).pressEnter();
+    public void insertUser(User testUser) {
+        $(FIELD_EMAIL).val(testUser.getLogin());
+        $(FIELD_PASSWORD).val(testUser.getPass()).pressEnter();
     }
 
-    public OkMainPage login() {
-        openPage();
-        insertUser();
+    public OkMainPage login(User testUser) {
+        insertUser(testUser);
         return new OkMainPage();
     }
 
     @Override
     void check() {
+        openPage();
         $(FIELD_EMAIL)
                 .shouldBe(Condition.visible.because("Текстовое поля для ввода логина должно отображаться"), TIMEOUT);
     }

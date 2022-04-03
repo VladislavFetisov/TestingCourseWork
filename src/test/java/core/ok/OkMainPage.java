@@ -23,6 +23,7 @@ public class OkMainPage extends BasePage {
                 .shouldBe(Condition.visible.because("Не отображается кнопка профиля"), TIMEOUT)
                 .click();
         return new OkProfilePage();
+
     }
 
     @Override

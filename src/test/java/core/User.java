@@ -1,6 +1,7 @@
 package core;
 
 import com.google.gson.JsonElement;
+import core.ok.Utils;
 
 public class User {
 
@@ -9,9 +10,9 @@ public class User {
     private final String USER_FIO;
 
     public User(JsonElement jsonElement) {
-        this.USER_LOGIN = jsonElement.getAsJsonObject().get("login").toString();
-        this.USER_PASSWORD = jsonElement.getAsJsonObject().get("password").toString();
-        this.USER_FIO = jsonElement.getAsJsonObject().get("fio").toString();
+        this.USER_LOGIN = Utils.removeBrackets(jsonElement.getAsJsonObject().get("login").toString());
+        this.USER_PASSWORD = Utils.removeBrackets(jsonElement.getAsJsonObject().get("password").toString());
+        this.USER_FIO = Utils.removeBrackets(jsonElement.getAsJsonObject().get("fio").toString());
     }
 
     public String getLogin() {
