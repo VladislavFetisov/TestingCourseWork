@@ -17,9 +17,8 @@ public class OkGroupsPage extends BasePage {
             = By.xpath("//*[contains(@class,'group-name-link')]");
     private static final By JOIN_FIRST_RECOMMENDED_GROUP = By.xpath("//*[contains(@class,'group-join')]");
 
-    @Override
-    void check() {
-        Utils.checkAndReturn(TOP_GROUPS_MODULE, "Модуль групп должен отображаться");
+    public OkGroupsPage() {
+        check();
     }
 
     /**
@@ -39,6 +38,12 @@ public class OkGroupsPage extends BasePage {
         return groups;
     }
 
+    @Override
+    void check() {
+        Utils.waitUntilByShowUp(TOP_GROUPS_MODULE, "Модуль групп должен отображаться");
+    }
+
     public record Group(String name) { //wrapper
+
     }
 }

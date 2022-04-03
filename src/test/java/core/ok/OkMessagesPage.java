@@ -8,6 +8,10 @@ public class OkMessagesPage extends BasePage {
 
     private static final By MESSAGE_LAYER = By.xpath("//*[@id='msg_layer']");
 
+    public OkMessagesPage() {
+        check();
+    }
+
     /**
      * @param fullName of user
      * @return first found dialog
@@ -18,6 +22,6 @@ public class OkMessagesPage extends BasePage {
 
     @Override
     void check() {
-        Utils.checkAndReturn(MESSAGE_LAYER, "Сообщения должны появиться");
+        Utils.waitUntilByShowUp(MESSAGE_LAYER, "Сообщения должны появиться");
     }
 }

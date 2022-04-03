@@ -12,11 +12,7 @@ public class OkSettingsPopUP extends BasePage {
 
     public OkSettingsPopUP(OkSettingsPage settingsPage) {
         this.settingsPage = settingsPage;
-    }
-
-    @Override
-    void check() {
-        Utils.checkAndReturn(SETTING_MODAL_WINDOW, "Должно появиться модальное окно");
+        check();
     }
 
     public OkSettingsPage goToSettingsPage() {
@@ -31,5 +27,10 @@ public class OkSettingsPopUP extends BasePage {
 
     public String getName() {
         return $(FIELD_NAME).getValue();
+    }
+
+    @Override
+    void check() {
+        Utils.waitUntilByShowUp(SETTING_MODAL_WINDOW, "Должно появиться модальное окно");
     }
 }
