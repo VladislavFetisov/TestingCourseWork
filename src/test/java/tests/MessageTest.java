@@ -2,6 +2,7 @@ package tests;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
+import core.Props;
 import core.ok.OkDialog;
 import core.ok.OkLoginPage;
 import org.junit.jupiter.api.AfterAll;
@@ -15,7 +16,8 @@ class MessageTest {
 
     @BeforeAll
     static void setup() {
-        Configuration.browser = "firefox";
+        Props.readJSON();
+        Configuration.browser = Props.getBrowser();
         loginPage = OkLoginPage.getInstance();
     }
 
@@ -35,6 +37,7 @@ class MessageTest {
             dialog.deleteLastMessage();
         }
     }
+
     @AfterAll
     static void close(){
         Selenide.closeWebDriver();
