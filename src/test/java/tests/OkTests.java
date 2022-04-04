@@ -11,6 +11,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import static com.google.common.truth.Truth.assertWithMessage;
+
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -141,5 +144,22 @@ class OkTests extends BaseTest {
         okProfilePage.setStatus(oldStatus);
 
         assertWithMessage("Статусы не совпадают").that(newReadStatus).isEqualTo(newStatus);
+    }
+
+    /**
+     * Логинимся в профиль->открываем профиль->открываем настройки
+     */
+    @Test
+    void checkHistoryLogin() {
+        LocalDateTime timeBeforeLogin = LocalDateTime.now();
+        LocalDateTime loginTime = loginPage
+                .login(TEST_USER)
+                .goToProfile()
+                .goToSettings()
+                .goToLoginHistoryPage()
+                .getLastLoginTime();
+
+        assertWithMessage("Время логина не совпадает")
+                .that(loginTime).isAtLeast(timeBeforeLogin.truncatedTo(ChronoUnit.MINUTES));
     }
 }

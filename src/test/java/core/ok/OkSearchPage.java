@@ -14,11 +14,11 @@ public class OkSearchPage extends BasePage{
     }
 
     public String getSearchText() {
-        return waitUntilByShowUp(SEARCH_FIELD, "??? ?????????? ????").getValue();
+        return waitUntilByShowUp(SEARCH_FIELD, "Нет поискового поля").getValue();
     }
 
     @Override
     void check() {
-        waitUntilByShowUp(MAIN_LOGO, "??????? ???? ?????? ????????????");
+        waitUntilByShowUp(MAIN_LOGO, "Главное лого должно отображаться");
     }
 }
