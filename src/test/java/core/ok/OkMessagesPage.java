@@ -2,15 +2,9 @@ package core.ok;
 
 import org.openqa.selenium.By;
 
-import static com.codeborne.selenide.Selenide.$;
-
 public class OkMessagesPage extends BasePage {
 
     private static final By MESSAGE_LAYER = By.xpath("//*[@id='msg_layer']");
-
-    public OkMessagesPage() {
-        check();
-    }
 
     /**
      * @param fullName of user

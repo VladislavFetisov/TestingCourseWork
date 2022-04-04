@@ -11,9 +11,6 @@ public class OkLoginPage extends BasePage {
     private static final By FIELD_EMAIL = By.xpath("//*[@id='field_email']");
     private static final By FIELD_PASSWORD = By.xpath("//*[@id='field_password']");
 
-    public OkLoginPage() {
-        check();
-    }
 
     public void openPage() {
         Selenide.open(URL.OK.getLink());

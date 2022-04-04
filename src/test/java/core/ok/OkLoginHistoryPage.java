@@ -14,10 +14,6 @@ public class OkLoginHistoryPage extends BasePage{
 
     public static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
-    public OkLoginHistoryPage() {
-        check();
-    }
-
     public LocalDateTime getLastLoginTime() {
         String s = waitUntilByShowUp(LAST_TIME_LOGIN, "Нет последних логинов").getText();
         return LocalDateTime.parse(s, dateTimeFormatter);
@@ -28,9 +24,4 @@ public class OkLoginHistoryPage extends BasePage{
         waitUntilByShowUp(HISTORY_PAGE_TITLE, "Нет заголовка с текстом: Список подключений за последние 30 дней");
     }
 
-    public static void main(String[] args) {
-        LocalDateTime timeBeforeLogin = LocalDateTime.now();
-        LocalDateTime lastLoginTime = LocalDateTime.parse("04.04.2022 14:35", OkLoginHistoryPage.dateTimeFormatter);
-        System.out.println(lastLoginTime.isAfter(timeBeforeLogin));
-    }
 }

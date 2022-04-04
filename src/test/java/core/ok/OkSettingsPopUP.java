@@ -12,7 +12,6 @@ public class OkSettingsPopUP extends BasePage {
 
     public OkSettingsPopUP(OkSettingsPage settingsPage) {
         this.settingsPage = settingsPage;
-        check();
     }
 
     public OkSettingsPage goToSettingsPage() {

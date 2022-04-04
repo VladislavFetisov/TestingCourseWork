@@ -1,7 +1,6 @@
 package tests;
 
 import com.codeborne.selenide.Selenide;
-import com.google.common.truth.Truth;
 import core.Props;
 import core.User;
 import core.ok.*;
@@ -10,13 +9,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import static com.google.common.truth.Truth.assertWithMessage;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 class OkTests extends BaseTest {
     private static final User TEST_USER = Props.getRandomUser();
@@ -36,7 +35,7 @@ class OkTests extends BaseTest {
      */
     @ParameterizedTest
     @CsvSource(value = {
-            "Влад Фетисов, ПРИВЕТ"
+            "ВИКТОР ТОЛСТЫХ, ПРИВЕТ"
     })
     void messageTest(String dialogName, String message) {
         OkDialog dialog = loginPage
@@ -46,7 +45,9 @@ class OkTests extends BaseTest {
         dialog.sendText(message);
         String foundMessage = dialog.lastMessageText();
         dialog.deleteLastMessage();
-        assertEquals(message, foundMessage, "Message is not found");
+        assertWithMessage("Отправленное сообщение не найдено")
+                .that(message)
+                .isEqualTo(foundMessage);
     }
 
     /**
@@ -88,30 +89,23 @@ class OkTests extends BaseTest {
     void joinRandomGroup() {
         OkGroupsPage groupPage = loginPage
                 .login(TEST_USER)
-                .goToGroups();
+                .goToGroups()
+                .goToUserGroups();
         List<OkGroupsPage.Group> oldGroups = groupPage.getAllJoinedGroups();
         OkGroupsPage.Group newGroup = groupPage.joinFirstRecommendedGroup();
 
         Selenide.refresh();
-        List<OkGroupsPage.Group> upToDateGroups = new OkGroupsPage().getAllJoinedGroups();
-
-        Truth.assertThat(oldGroups).doesNotContain(newGroup); //matcher
-        Truth.assertThat(upToDateGroups).contains(newGroup);
-
+        List<OkGroupsPage.Group> upToDateGroups = groupPage.getAllJoinedGroups();
+        assertThat(oldGroups).doesNotContain(newGroup); //matcher
+        assertThat(upToDateGroups).contains(newGroup);
     }
+
+
 
     /**
-     * Логинимся в профиль->пишем заметку-> публикуем заметку->проверяем, что заметка появилась->удаляем заметку.
-     */
-    @Test
-    void createPost() {
-
-    }
-
-    /*
      * Логинимся в профиль->в поле искать на сайте пишем текст->нажимаем на кнопку поиска->проверяем в поисковой строке текст
      *
-     * @param текст, который будет вводиться
+     * @param initialText - текст, который будет вводиться
      */
     @ParameterizedTest
     @ValueSource(strings = {"Смысл жизни"})
@@ -123,11 +117,11 @@ class OkTests extends BaseTest {
         assertWithMessage("Поисковые запросы не совпадают").that(foundText).isEqualTo(initialText);
     }
 
-    /*
+    /**
      * Логинимся в профиль->открываем профиль->запоминаем статус->меняем статус->открываем профиль
      * ->проверяем, что статус изменился
      *
-     * @param статус, который будет вводиться
+     * @param newStatus - статус, который будет вводиться
      */
     @ParameterizedTest
     @ValueSource(strings = {"Новый статус"})

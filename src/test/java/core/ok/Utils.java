@@ -19,8 +19,4 @@ public final class Utils {
     public static SelenideElement waitUntilByShowUp(By selector, String message) {
         return $(selector).shouldBe(Condition.visible.because(message), TIMEOUT);
     }
-
-    public static SelenideElement waitUntilElementShowUp(SelenideElement element, String message) {
-        return element.shouldBe(Condition.visible.because(message), TIMEOUT);
-    }
 }

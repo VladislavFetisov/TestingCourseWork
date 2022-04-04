@@ -10,9 +10,6 @@ public class OkSettingsPage extends BasePage {
             = By.xpath("//*[contains(@class,'user-settings')]//*[contains(@hrefattrs,'EditProfile')]");
     private static final By LOGIN_HISTORY = By.xpath("//div[@id='hook_Block_UserSettingsMenu']//a[contains(@href, 'LocationHistory')]");
 
-    public OkSettingsPage() {
-        check();
-    }
 
     public OkSettingsPopUP goToSettingsPopUp() {
         waitUntilByShowUp(PROFILE_DATA, "Должен появиться профиль").click();
@@ -20,7 +17,7 @@ public class OkSettingsPage extends BasePage {
     }
 
     public OkLoginHistoryPage goToLoginHistoryPage() {
-        waitUntilByShowUp(LOGIN_HISTORY, "Нет кнопки истории посейщений").click();
+        waitUntilByShowUp(LOGIN_HISTORY, "Нет кнопки истории сообщений").click();
         return new OkLoginHistoryPage();
     }
 
