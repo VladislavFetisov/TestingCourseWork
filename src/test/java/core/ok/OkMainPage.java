@@ -4,6 +4,9 @@ import com.codeborne.selenide.Condition;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.webdriver;
+import static core.ok.Utils.waitUntilByShowUp;
+import static core.ok.Utils.waitUntilElementShowUp;
 
 public class OkMainPage extends BasePage {
     private static final By MAIN_LOGO = By.xpath("//*[@id='topPanelLeftCorner']");
@@ -11,29 +14,36 @@ public class OkMainPage extends BasePage {
     private static final By PROFILE_BUTTON
             = By.xpath("//*[contains(@class,'user-main')]//*[contains(@hrefattrs,'userPage')]");
     private static final By GROUPS_BUTTON = By.xpath("//*[contains(@class,'user-main')]//*[contains(@href,'/groups')]");
+    private static final By INPUT_FIELD = By.xpath("//toolbar-search//label/input");
+
+
+    public OkMainPage() {
+        check();
+    }
 
     public OkMessagesPage goToMessages() {
-        $(MSG_BUTTON)
-                .shouldBe(Condition.visible.because("Не отображается кнопка сообщений"), TIMEOUT)
-                .click();
+        waitUntilByShowUp(MSG_BUTTON, "Не отображается кнопка сообщений").click();
         return new OkMessagesPage();
     }
 
     public OkProfilePage goToProfile() {
-        $(PROFILE_BUTTON)
-                .shouldBe(Condition.visible.because("Не отображается кнопка профиля"), TIMEOUT)
-                .click();
+        waitUntilByShowUp(PROFILE_BUTTON, "Не отображается кнопка профиля").click();
         return new OkProfilePage();
 
     }
 
     public OkGroupsPage goToGroups() {
-        Utils.checkAndReturn(GROUPS_BUTTON, "Не отображается кнопка групп").click();
+        waitUntilByShowUp(GROUPS_BUTTON, "Не отображается кнопка групп").click();
         return new OkGroupsPage();
+    }
+
+    public OkSearchPage searchText(String text) {
+        waitUntilByShowUp(INPUT_FIELD, "Нет поля ввода текста").val(text).pressEnter();
+        return new OkSearchPage();
     }
 
     @Override
     void check() {
-        Utils.checkAndReturn(MAIN_LOGO, "Главное лого должно отображаться");
+        waitUntilByShowUp(MAIN_LOGO, "Главное лого должно отображаться");
     }
 }

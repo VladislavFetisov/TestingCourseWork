@@ -5,14 +5,15 @@ import com.google.common.truth.Truth;
 import core.Props;
 import core.User;
 import core.ok.*;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -35,7 +36,7 @@ class OkTests extends BaseTest {
      */
     @ParameterizedTest
     @CsvSource(value = {
-            "ВИКТОР ТОЛСТЫХ, ПРИВЕТ"
+            "Влад Фетисов, ПРИВЕТ"
     })
     void messageTest(String dialogName, String message) {
         OkDialog dialog = loginPage
@@ -76,7 +77,7 @@ class OkTests extends BaseTest {
         newPopUp.changeName(oldName);
         newPopUp.goToSettingsPage();
 
-        Assertions.assertEquals(name, newName, "Ожидалось, что имя станет" + name);
+        assertWithMessage("Ожидалось, что имя станет" + name).that(name).isEqualTo(newName);
     }
 
     /**
@@ -105,5 +106,60 @@ class OkTests extends BaseTest {
     @Test
     void createPost() {
 
+    }
+
+    /*
+     * Логинимся в профиль->в поле искать на сайте пишем текст->нажимаем на кнопку поиска->проверяем в поисковой строке текст
+     *
+     * @param текст, который будет вводиться
+     */
+    @ParameterizedTest
+    @ValueSource(strings = {"Смысл жизни"})
+    void search(String initialText) {
+        OkSearchPage okSearchPage = loginPage
+                .login(TEST_USER)
+                .searchText(initialText);
+        String foundText = okSearchPage.getSearchText();
+        assertWithMessage("Поисковые запросы не совпадают").that(foundText).isEqualTo(initialText);
+    }
+
+    /*
+     * Логинимся в профиль->открываем профиль->запоминаем статус->меняем статус->открываем профиль
+     * ->проверяем, что статус изменился
+     *
+     * @param статус, который будет вводиться
+     */
+    @ParameterizedTest
+    @ValueSource(strings = {"Новый статус"})
+    void changeProfileStatus(String newStatus) {
+        OkProfilePage okProfilePage = loginPage
+                .login(TEST_USER)
+                .goToProfile();
+        String oldStatus = okProfilePage.getStatus();
+
+        okProfilePage.setStatus(newStatus);
+        Selenide.refresh();
+        String newReadStatus = okProfilePage.getStatus();
+
+        okProfilePage.setStatus(oldStatus);
+
+        assertWithMessage("Статусы не совпадают").that(newReadStatus).isEqualTo(newStatus);
+    }
+
+    /**
+     * Логинимся в профиль->открываем профиль->открываем настройки
+     */
+    @Test
+    void checkHistoryLogin() {
+        LocalDateTime timeBeforeLogin = LocalDateTime.now();
+        LocalDateTime loginTime = loginPage
+                .login(TEST_USER)
+                .goToProfile()
+                .goToSettings()
+                .goToLoginHistoryPage()
+                .getLastLoginTime();
+
+        assertWithMessage("Время логина не совпадает")
+                .that(loginTime).isAtLeast(timeBeforeLogin.truncatedTo(ChronoUnit.MINUTES));
     }
 }

@@ -16,7 +16,11 @@ public final class Utils {
         return value.substring(1, value.length() - 1);
     }
 
-    public static SelenideElement checkAndReturn(By selector, String message) {
+    public static SelenideElement waitUntilByShowUp(By selector, String message) {
         return $(selector).shouldBe(Condition.visible.because(message), TIMEOUT);
+    }
+
+    public static SelenideElement waitUntilElementShowUp(SelenideElement element, String message) {
+        return element.shouldBe(Condition.visible.because(message), TIMEOUT);
     }
 }
