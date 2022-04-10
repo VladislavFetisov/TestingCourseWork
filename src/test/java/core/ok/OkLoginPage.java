@@ -11,11 +11,6 @@ public class OkLoginPage extends BasePage {
     private static final By FIELD_EMAIL = By.xpath("//*[@id='field_email']");
     private static final By FIELD_PASSWORD = By.xpath("//*[@id='field_password']");
 
-
-    public void openPage() {
-        Selenide.open(URL.OK.getLink());
-    }
-
     public void insertUser(User testUser) {
         $(FIELD_EMAIL).val(testUser.getLogin());
         $(FIELD_PASSWORD).val(testUser.getPass()).pressEnter();
@@ -27,9 +22,13 @@ public class OkLoginPage extends BasePage {
     }
 
     @Override
-    void check() {
-        openPage();
-        Utils.waitUntilByShowUp(FIELD_EMAIL, "Текстовое поля для ввода логина должно отображаться");
+    protected void load() {
+        Selenide.open(URL.OK.getLink());
     }
 
+    @Override
+    protected void isLoaded() throws Error {
+        load();
+        Utils.waitUntilByShowUp(FIELD_EMAIL, "Текстовое поля для ввода логина должно отображаться");
+    }
 }

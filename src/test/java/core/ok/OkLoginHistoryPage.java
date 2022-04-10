@@ -4,11 +4,10 @@ import org.openqa.selenium.By;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 
 import static core.ok.Utils.waitUntilByShowUp;
 
-public class OkLoginHistoryPage extends BasePage{
+public class OkLoginHistoryPage extends BasePage {
     private static final By HISTORY_PAGE_TITLE = By.xpath("//div[@id='hook_Block_UserLocationHistory']/div[@class='user-settings __history']//span");
     private static final By LAST_TIME_LOGIN = By.xpath("//div[@id='hook_Block_UserLocationHistory']/div[@class='user-settings __history']/div[@class='user-settings_i'][1]//div[@class='user-settings_i_time']");
 
@@ -20,8 +19,12 @@ public class OkLoginHistoryPage extends BasePage{
     }
 
     @Override
-    void check() {
-        waitUntilByShowUp(HISTORY_PAGE_TITLE, "Нет заголовка с текстом: Список подключений за последние 30 дней");
+    protected void load() {
+        //empty
     }
 
+    @Override
+    protected void isLoaded() throws Error {
+        waitUntilByShowUp(HISTORY_PAGE_TITLE, "Нет заголовка с текстом: Список подключений за последние 30 дней");
+    }
 }

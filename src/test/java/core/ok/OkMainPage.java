@@ -33,9 +33,14 @@ public class OkMainPage extends BasePage {
         return new OkSearchPage();
     }
 
+
     @Override
-    void check() {
-        waitUntilByShowUp(MAIN_LOGO, "Главное лого должно отображаться");
+    protected void load() {
+        //empty
     }
 
+    @Override
+    protected void isLoaded() throws Error {
+        waitUntilByShowUp(MAIN_LOGO, "Главное лого должно отображаться");
+    }
 }

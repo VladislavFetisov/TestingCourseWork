@@ -22,8 +22,12 @@ public class OkSettingsPage extends BasePage {
     }
 
     @Override
-    void check() {
-        waitUntilByShowUp(ANY_SETTINGS, "Настройки должны открыться");
+    protected void load() {
+        //empty
     }
 
+    @Override
+    protected void isLoaded() throws Error {
+        waitUntilByShowUp(ANY_SETTINGS, "Настройки должны открыться");
+    }
 }

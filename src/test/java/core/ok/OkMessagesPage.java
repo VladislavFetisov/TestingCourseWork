@@ -14,8 +14,14 @@ public class OkMessagesPage extends BasePage {
         return OkDialog.getByName(fullName);
     }
 
+
     @Override
-    void check() {
+    protected void load() {
+        //empty
+    }
+
+    @Override
+    protected void isLoaded() throws Error {
         Utils.waitUntilByShowUp(MESSAGE_LAYER, "Сообщения должны появиться");
     }
 }

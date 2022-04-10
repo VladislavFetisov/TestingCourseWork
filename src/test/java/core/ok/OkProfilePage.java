@@ -28,7 +28,12 @@ public class OkProfilePage extends BasePage {
     }
 
     @Override
-    void check() {
+    protected void load() {
+
+    }
+
+    @Override
+    protected void isLoaded() throws Error {
         Utils.waitUntilByShowUp(MAIN_PROFILE_WRAPPER, "Профиль должен появиться");
     }
 }

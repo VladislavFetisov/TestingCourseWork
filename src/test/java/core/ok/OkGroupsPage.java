@@ -36,12 +36,19 @@ public class OkGroupsPage extends BasePage {
         }
         return groups;
     }
+
     public OkGroupsPage goToUserGroups() {
         Utils.waitUntilByShowUp(MY_GROUPS_BUTTON, "Нет кнопки групп пользователя").click();
         return this;
     }
+
     @Override
-    void check() {
+    protected void load() {
+        //empty
+    }
+
+    @Override
+    protected void isLoaded() throws Error {
         Utils.waitUntilByShowUp(TOP_GROUPS_MODULE, "Модуль групп должен отображаться");
     }
 
