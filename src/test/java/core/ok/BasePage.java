@@ -13,4 +13,9 @@ public abstract class BasePage extends LoadableComponent<BasePage> {
     protected BasePage() {
         isLoaded();
     }
+
+    @Override
+    protected void load() {
+        //do nothing
+    }
 }

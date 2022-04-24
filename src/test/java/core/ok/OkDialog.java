@@ -6,7 +6,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static core.ok.Utils.waitUntilByShowUp;
 
 public class OkDialog {
-    private static final By MSG_INPUT_FIELD = By.xpath("//*[@class='input']//msg-input");
+    private static final By MSG_INPUT_FIELD = By.xpath("//msg-input");
     private static final By LAST_SEND_MSG = By.xpath("//msg-message-list//*[last()-1]//msg-message[@mine][last()]");
     private static final By LAST_MSG_TEXT
             = By.xpath("//msg-message-list//*[last()-1]//msg-message[@mine][last()]//msg-parsed-text");

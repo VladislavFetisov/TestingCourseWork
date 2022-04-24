@@ -8,19 +8,16 @@ import java.time.format.DateTimeFormatter;
 import static core.ok.Utils.waitUntilByShowUp;
 
 public class OkLoginHistoryPage extends BasePage {
-    private static final By HISTORY_PAGE_TITLE = By.xpath("//div[@id='hook_Block_UserLocationHistory']/div[@class='user-settings __history']//span");
-    private static final By LAST_TIME_LOGIN = By.xpath("//div[@id='hook_Block_UserLocationHistory']/div[@class='user-settings __history']/div[@class='user-settings_i'][1]//div[@class='user-settings_i_time']");
+    private static final By HISTORY_PAGE_TITLE
+            = By.xpath("//*[@class='user-settings __history']//span");
+    private static final By LAST_TIME_LOGIN
+            = By.xpath("//*[@class='user-settings_i_time']");
 
     public static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
     public LocalDateTime getLastLoginTime() {
         String s = waitUntilByShowUp(LAST_TIME_LOGIN, "Нет последних логинов").getText();
         return LocalDateTime.parse(s, dateTimeFormatter);
-    }
-
-    @Override
-    protected void load() {
-        //empty
     }
 
     @Override

@@ -33,12 +33,6 @@ public class OkMainPage extends BasePage {
         return new OkSearchPage();
     }
 
-
-    @Override
-    protected void load() {
-        //empty
-    }
-
     @Override
     protected void isLoaded() throws Error {
         waitUntilByShowUp(MAIN_LOGO, "Главное лого должно отображаться");

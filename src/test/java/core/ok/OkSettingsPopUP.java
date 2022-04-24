@@ -28,12 +28,6 @@ public class OkSettingsPopUP extends BasePage {
         return $(FIELD_NAME).getValue();
     }
 
-
-    @Override
-    protected void load() {
-
-    }
-
     @Override
     protected void isLoaded() throws Error {
         Utils.waitUntilByShowUp(SETTING_MODAL_WINDOW, "Должно появиться модальное окно");

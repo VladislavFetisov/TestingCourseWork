@@ -43,11 +43,6 @@ public class OkGroupsPage extends BasePage {
     }
 
     @Override
-    protected void load() {
-        //empty
-    }
-
-    @Override
     protected void isLoaded() throws Error {
         Utils.waitUntilByShowUp(TOP_GROUPS_MODULE, "Модуль групп должен отображаться");
     }
