@@ -11,6 +11,8 @@ public class OkMainPage extends BasePage {
             = By.xpath("//*[contains(@class,'user-main')]//*[contains(@hrefattrs,'userPage')]");
     private static final By GROUPS_BUTTON = By.xpath("//*[contains(@class,'user-main')]//*[contains(@href,'/groups')]");
     private static final By INPUT_FIELD = By.xpath("//toolbar-search//label/input");
+    private static final By TOP_PANEL = By.xpath("//*[@class='topPanel']");
+    private static final By SIDE_PANEL = By.xpath("//*[contains(@class, 'layout-aside')]");
 
     public OkMessagesPage goToMessages() {
         waitUntilByShowUp(MSG_BUTTON, "Не отображается кнопка сообщений").click();
@@ -20,7 +22,6 @@ public class OkMainPage extends BasePage {
     public OkProfilePage goToProfile() {
         waitUntilByShowUp(PROFILE_BUTTON, "Не отображается кнопка профиля").click();
         return new OkProfilePage();
-
     }
 
     public OkGroupsPage goToGroups() {
@@ -35,6 +36,8 @@ public class OkMainPage extends BasePage {
 
     @Override
     protected void isLoaded() throws Error {
+        waitUntilByShowUp(TOP_PANEL, "Верхняя панель должна отображаться");
         waitUntilByShowUp(MAIN_LOGO, "Главное лого должно отображаться");
+        waitUntilByShowUp(SIDE_PANEL, "Боковая панель должна отображаться");
     }
 }

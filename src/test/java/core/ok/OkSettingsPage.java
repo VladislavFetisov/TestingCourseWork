@@ -8,7 +8,10 @@ public class OkSettingsPage extends BasePage {
     private static final By ANY_SETTINGS = By.xpath("//*[contains(@class,'user-settings')]");
     private static final By PROFILE_DATA
             = By.xpath("//*[contains(@class,'user-settings')]//*[contains(@hrefattrs,'EditProfile')]");
-    private static final By LOGIN_HISTORY = By.xpath("//div[@id='hook_Block_UserSettingsMenu']//a[contains(@href, 'LocationHistory')]");
+    private static final By LOGIN_HISTORY = By.xpath("//*[@id='hook_Block_UserSettingsMenu']//*[contains(@href, 'LocationHistory')]");
+    private static final By TOP_PANEL = By.xpath("//*[@class='topPanel']");
+    private static final By PERSON_INFO = By.xpath("//*[@class='portlet']");
+
 
 
     public OkSettingsPopUP goToSettingsPopUp() {
@@ -24,5 +27,7 @@ public class OkSettingsPage extends BasePage {
     @Override
     protected void isLoaded() throws Error {
         waitUntilByShowUp(ANY_SETTINGS, "Настройки должны открыться");
+        waitUntilByShowUp(TOP_PANEL, "Верхняя панель должна отображаться");
+        waitUntilByShowUp(PERSON_INFO, "Панель информации о человеке должна отображаться");
     }
 }
