@@ -1,4 +1,4 @@
-package tests.okTests;
+package tests.okTests.SettingsTests;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,7 +10,7 @@ import java.time.temporal.ChronoUnit;
 
 import static com.google.common.truth.Truth.assertWithMessage;
 
-class SettingsTests extends BaseTest {
+class HistoryConsistency extends BaseTest {
 
     /**
      * Логинимся в профиль->открываем профиль->открываем настройки

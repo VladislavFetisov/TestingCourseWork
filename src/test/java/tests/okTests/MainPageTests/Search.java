@@ -1,4 +1,4 @@
-package tests.okTests;
+package tests.okTests.MainPageTests;
 
 import core.ok.OkSearchPage;
 import org.junit.jupiter.api.Timeout;
@@ -8,7 +8,7 @@ import tests.BaseTest;
 
 import static com.google.common.truth.Truth.assertWithMessage;
 
-class MainPageTests extends BaseTest {
+class Search extends BaseTest {
 
     /**
      * Логинимся в профиль->в поле искать на сайте пишем текст->нажимаем на кнопку поиска

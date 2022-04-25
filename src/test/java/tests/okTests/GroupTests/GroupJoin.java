@@ -1,4 +1,4 @@
-package tests.okTests;
+package tests.okTests.GroupTests;
 
 import com.codeborne.selenide.Selenide;
 import core.ok.OkGroupsPage;
@@ -10,7 +10,7 @@ import java.util.List;
 
 import static com.google.common.truth.Truth.assertThat;
 
-class GroupTests extends BaseTest {
+class GroupJoin extends BaseTest {
 
     /**
      * Логинимся в профиль->заходим в группы->вступаем в первую из рекомендованных групп->обновляем страницу

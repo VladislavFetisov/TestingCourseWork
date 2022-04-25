@@ -1,4 +1,4 @@
-package tests.okTests;
+package tests.okTests.ProfileTests;
 
 import com.codeborne.selenide.Selenide;
 import core.ok.OkProfilePage;
@@ -11,7 +11,7 @@ import tests.BaseTest;
 
 import static com.google.common.truth.Truth.assertWithMessage;
 
-class ProfileTests extends BaseTest {
+class ChangeName extends BaseTest {
 
     /**
      * Логинимся в профиль->открываем профиль->запоминаем имя->открываем настройки->меняем имя->открываем профиль
@@ -43,29 +43,5 @@ class ProfileTests extends BaseTest {
         newPopUp.goToSettingsPage();
 
         assertWithMessage("Ожидалось, что имя станет" + name).that(name).isEqualTo(newName);
-    }
-
-    /**
-     * Логинимся в профиль->открываем профиль->запоминаем статус->меняем статус->открываем профиль
-     * ->проверяем, что статус изменился
-     *
-     * @param newStatus - статус, который будет вводиться
-     */
-    @ParameterizedTest
-    @ValueSource(strings = {"Новый статус"})
-    @Timeout(60)
-    void changeProfileStatus(String newStatus) {
-        OkProfilePage okProfilePage = loginPage
-                .login(TEST_USER)
-                .goToProfile();
-        String oldStatus = okProfilePage.getStatus();
-
-        okProfilePage.setStatus(newStatus);
-        Selenide.refresh();
-        String newReadStatus = okProfilePage.getStatus();
-
-        okProfilePage.setStatus(oldStatus);
-
-        assertWithMessage("Статусы не совпадают").that(newReadStatus).isEqualTo(newStatus);
     }
 }
