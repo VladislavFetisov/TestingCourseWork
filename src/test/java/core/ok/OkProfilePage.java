@@ -10,6 +10,8 @@ public class OkProfilePage extends BasePage {
     private static final By STATUS_FIELD = By.xpath("//*[@data-l='t,textField-text']");
     private static final By STATUS_FIELD_INPUT = By.xpath("//*[@data-l='t,textField-text']/textarea");
     private static final By SAVE_STATUS_BTN = By.xpath("//*[@class='text-field_edit-controls']//*[@data-l='t,textField-save']");
+    private static final By TOP_PANEL = By.xpath("//*[@class='topPanel']");
+    private static final By NAME_FIELD = By.xpath("//*[@class='main-content-header_title']");
 
 
     public OkSettingsPage goToSettings() {
@@ -29,6 +31,8 @@ public class OkProfilePage extends BasePage {
 
     @Override
     protected void isLoaded() throws Error {
-        Utils.waitUntilByShowUp(MAIN_PROFILE_WRAPPER, "Профиль должен появиться");
+        waitUntilByShowUp(MAIN_PROFILE_WRAPPER, "Профиль должен появиться");
+        waitUntilByShowUp(TOP_PANEL, "Верхняя панель должна отображаться");
+        waitUntilByShowUp(NAME_FIELD, "Имя человека должно загрузиться");
     }
 }
