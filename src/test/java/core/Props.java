@@ -17,7 +17,9 @@ public class Props {
     private static List<User> userList;
     private static String BROWSER;
 
-    // Reading from JSON file
+    /**
+     * Reading from JSON file
+     */
     public static void readJSON() throws IOException {
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         try (BufferedReader reader = openFile(classloader)) {

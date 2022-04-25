@@ -1,4 +1,4 @@
-package tests.okTests;
+package tests.okTests.MessageTests;
 
 import core.ok.OkDialog;
 import org.junit.jupiter.api.Timeout;
@@ -8,7 +8,7 @@ import tests.BaseTest;
 
 import static com.google.common.truth.Truth.assertWithMessage;
 
-class MessageTests extends BaseTest {
+class SendTest extends BaseTest {
 
     /**
      * Логинимся в профиль -> открываем вкладку сообщения ->выбираем диалог
@@ -19,7 +19,8 @@ class MessageTests extends BaseTest {
      */
     @ParameterizedTest
     @CsvSource(value = {
-            "ВИКТОР ТОЛСТЫХ, ПРИВЕТ"
+            "ВИКТОР ТОЛСТЫХ, ПРИВЕТ",
+            "АЛЕКСАНДР ДОЛГОРУКИХ, САНЯ ВЕРНИ СОТКУ"
     })
     @Timeout(60)
     void messageTest(String dialogName, String message) {
